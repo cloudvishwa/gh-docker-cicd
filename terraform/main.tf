@@ -17,7 +17,7 @@ data "aws_ami" "ubuntu" {
   }
 }
 
-resource "aws_security_group" "vm_sg1" {
+resource "aws_security_group" "vm_sg" {
   name        = "gha-vm-sg1"
   description = "Allow SSH and 8080"
 
