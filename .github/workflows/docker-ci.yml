@@ -168,3 +168,18 @@ jobs:
           VM_IP=$(terraform output -raw vm_public_ip)
           echo "VM_IP=$VM_IP" >> $GITHUB_ENV
           echo "VM Public IP: $VM_IP"
+      
+      - name: Wait (hold infra)
+        run: |
+          echo "Holding for 180 seconds..."
+          sleep 180
+
+      # Destroy only on push to main (not on PR)
+      - name: Terraform Apply
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: terraform
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: terraform destroy -auto-approve tfplan
