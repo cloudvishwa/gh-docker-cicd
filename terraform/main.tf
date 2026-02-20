@@ -1,7 +1,7 @@
 # Provider Configuration
 # Specifies which cloud provider to use and in which region
 provider "aws" {
-  region = "us-west-1"
+  region = var.aws_region
   #profile = "default"
 }
 
